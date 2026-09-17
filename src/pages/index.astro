@@ -1,0 +1,51 @@
+---
+import Character from "../components/Character.astro";
+import CharacterInfo from "../components/CharacterInfo.astro";
+import PickerCharacter from "../components/PickerCharacter.astro";
+import { charactersData } from "../const/charactersData";
+import Layout from "../layouts/Layout.astro";
+import selectCharacter from "../utils/selectCharacter";
+---
+
+<Layout>
+  <main
+    class="w-full h-[100dvh] bg-cover bg-center bg-no-repeat relative overflow-hidden"
+    style="background-image: url(images/background.jpg);"
+  >
+    <!-- Overlay oscuro -->
+    <div class="absolute inset-0 bg-black opacity-20 z-0"></div>
+
+    <!-- Logo MK title: bottom-left, encima del picker -->
+    <div class="absolute bottom-[220px] sm:bottom-[240px] md:bottom-[270px] left-3 sm:left-6 md:left-10 w-32 sm:w-52 md:w-72 z-20">
+      <img src="/images/mortal_kombat_title.png" />
+    </div>
+
+    <!-- Logo MK11: top-right -->
+    <div class="absolute top-3 right-3 sm:top-6 sm:right-6 md:top-10 md:right-10 w-14 sm:w-20 md:w-28 z-20">
+      <img src="/images/mk_11_logo.png" />
+    </div>
+
+    <!-- Info del personaje: izquierda, centrada verticalmente -->
+    <div class="absolute inset-0 z-30 flex items-center pointer-events-none">
+      <CharacterInfo
+        id="mainCharacterInfo"
+        characterName="Jax"
+        characterDescription="Un soldado cibernético y oficial de las Fuerzas Especiales, conocido por sus implantes mecánicos en los brazos que le otorgan una fuerza sobrehumana "
+      />
+    </div>
+
+    <!-- Personaje: centrado en pantalla, se extiende hasta el picker -->
+    <div class="absolute inset-x-0 top-0 bottom-[220px] sm:bottom-[240px] md:bottom-[270px] z-10 flex justify-center items-end">
+      <Character
+        id="mainCharacter"
+        characterImg={selectCharacter("jax")}
+        characterName="Jax"
+      />
+    </div>
+
+    <!-- Picker: subido desde el fondo con margen de seguridad (env safe-area para dynamic island) -->
+    <div class="absolute bottom-[60px] sm:bottom-[70px] md:bottom-[80px] left-0 right-0 z-20 pb-[env(safe-area-inset-bottom)]">
+      <PickerCharacter characters={charactersData} />
+    </div>
+  </main>
+</Layout>

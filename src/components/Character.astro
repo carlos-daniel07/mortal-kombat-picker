@@ -1,0 +1,17 @@
+---
+interface Props {
+  characterImg: string;
+  characterName: string;
+  id: string;
+}
+
+const { characterImg, characterName, id } = Astro.props;
+---
+
+<div id={id} class="h-[calc(100dvh-220px)] sm:h-[calc(100dvh-240px)] md:h-[calc(100dvh-270px)] w-auto">
+  <img
+    class="w-full h-full object-contain object-bottom animated-character-img"
+    src={characterImg}
+    alt={characterName}
+  />
+</div>

@@ -1,0 +1,155 @@
+---
+import Character from "./Character.astro";
+import BottonSlider from "./BottonSlider.astro";
+
+interface Character {
+  name: string;
+  description: string;
+  id: number;
+}
+
+interface Props {
+  characters: Character[];
+}
+
+const { characters } = Astro.props;
+---
+
+<script>
+  import { charactersData } from "../const/charactersData";
+  import { $, $$ } from "../utils/domUtils";
+  import selectCharacter from "../utils/selectCharacter";
+  import renderCard from "../utils/renderCard";
+  import handleCharacterChange from "../utils/handleCharacterChange";
+  import sliderCharacter from "../utils/sliderCharacter";
+
+  const handleSelectCharacter = () => {
+    const allCharacter = $$("[data-character]");
+    allCharacter.forEach((el) => {
+      el.addEventListener("click", () => {
+        handleCharacterChange(el);
+      });
+    });
+  };
+
+  const renderCardsCharacters = (to: number = 0, from: number = 3) => {
+    const picker = $("[data-picker]");
+
+    if (!picker) return;
+
+    while (picker.firstChild) {
+      picker.removeChild(picker.firstChild);
+    }
+
+    charactersData.slice(to, from).forEach(({ name, id }) => {
+      const cardDiv = document.createElement("DIV");
+      cardDiv.innerHTML = renderCard(
+        id,
+        selectCharacter(name.toLowerCase()),
+        name
+      );
+      cardDiv.classList.add("animated-card-in");
+      picker.appendChild(cardDiv);
+    });
+
+    handleSelectCharacter();
+  };
+
+  // *  toca la funcion
+  const setBtnSlider = () => {
+    const btnRight = $("[data-right]") as HTMLButtonElement;
+    const btnLeft = $("[data-left]");
+
+    btnRight?.addEventListener("click", () =>
+      sliderCharacter("right", renderCardsCharacters)
+    );
+    btnLeft?.addEventListener("click", () =>
+      sliderCharacter("left", renderCardsCharacters)
+    );
+  };
+  document.addEventListener("DOMContentLoaded", () => {
+    renderCardsCharacters();
+    handleSelectCharacter();
+    setBtnSlider();
+  });
+</script>
+
+<div class="w-full flex justify-end items-center">
+  <BottonSlider />
+  <div data-picker class="flex gap-2 sm:gap-4 md:gap-6 justify-end pe-2 md:pe-4"></div>
+</div>
+
+<style is:global>
+  .animated-card-in {
+    animation: moving-card-in 0.4s ease-out;
+  }
+
+  .animated-character-img {
+    animation: character-img 0.3s ease-in;
+  }
+
+  .animated-character-title {
+    animation: character-title 0.1s ease-in;
+  }
+
+  .animated-character-text {
+    animation: character-text 0.4s ease-in;
+  }
+
+  @keyframes moving-card-in {
+    0% {
+      opacity: 0;
+      transform: translateX(-70px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes character-img {
+    0% {
+      opacity: 0;
+      scale: 0.9;
+      transform: translateY(30px);
+    }
+
+    75% {
+      scale: 1.05;
+    }
+
+    100% {
+      opacity: 1;
+      scale: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes character-title {
+    0% {
+      opacity: 0;
+      transform: translateY(-25px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes character-text {
+    0% {
+      opacity: 0;
+      transform: translateX(80px);
+    }
+
+    50% {
+      transform: translateX(0);
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+</style>
