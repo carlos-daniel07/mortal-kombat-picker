@@ -15,8 +15,8 @@ import selectCharacter from "../utils/selectCharacter";
     <!-- Overlay oscuro -->
     <div class="absolute inset-0 bg-black opacity-20 z-0"></div>
 
-    <!-- Logo MK title: bottom-left, encima del picker -->
-    <div class="absolute bottom-[220px] sm:bottom-[240px] md:bottom-[270px] left-3 sm:left-6 md:left-10 w-32 sm:w-52 md:w-72 z-20">
+    <!-- Logo MK title: mobile/tablet encima del picker, desktop junto al picker abajo -->
+    <div class="absolute bottom-[220px] sm:bottom-[240px] md:bottom-[88px] left-3 sm:left-6 md:left-16 lg:left-30 w-32 sm:w-52 md:w-48 lg:w-60 z-20">
       <img src="/images/mortal_kombat_title.png" />
     </div>
 
@@ -35,7 +35,7 @@ import selectCharacter from "../utils/selectCharacter";
     </div>
 
     <!-- Personaje: centrado en pantalla, se extiende hasta el picker -->
-    <div class="absolute inset-x-0 top-0 bottom-[220px] sm:bottom-[240px] md:bottom-[270px] z-10 flex justify-center items-end">
+    <div class="absolute inset-x-0 top-0 md:top-[8%] bottom-[220px] sm:bottom-[240px] md:bottom-[160px] z-10 flex justify-center items-end">
       <Character
         id="mainCharacter"
         characterImg={selectCharacter("jax")}
